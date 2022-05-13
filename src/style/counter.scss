@@ -1,0 +1,18 @@
+.Counter {
+    border: 1px solid black;
+    width: 400px;
+    height: 500px;
+    margin: 100px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    .count {
+        font-size: 5rem;
+        text-align: center;
+    }
+    .controls {
+        display: flex;
+        justify-content: space-evenly;
+    }
+}
