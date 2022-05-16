@@ -1,19 +1,30 @@
 import React, { Component, useEffect, useState } from 'react';
 import '../style/counter.scss';
 
-const getStateFromLocalStorage = () => {
-    const storage = localStorage.getItem('counterState');
-    if (storage) return JSON.parse(storage).count;
-    return {count: 0}
-};
-
 const storeStateInLocalStorage = (count: number) => {
     localStorage.setItem('counterState', JSON.stringify({count}))
     console.log(localStorage)
 }
 
+const useLocalStorage = (initialState: number, key: string) => {
+    const get: any = () => {
+        const storage = localStorage.getItem(key)
+        console.log(localStorage, storage)
+        if (storage) return JSON.parse(storage)['value'];
+        return initialState;
+    }
+
+    const [value, setValue] = useState(get())
+
+    useEffect(() => {
+        localStorage.setItem(key, JSON.stringify({ value }));
+    }, [value])
+
+    return [value, setValue]
+}
+
 const Counter = ({max, step}: {max: number, step: number}) => {
-    const [count, setCount] = useState(getStateFromLocalStorage)
+    const [count, setCount] = useLocalStorage(0, 'count')
     const increment = () => {
         setCount(
             (c: number) => {
